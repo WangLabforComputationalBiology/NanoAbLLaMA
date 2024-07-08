@@ -1,5 +1,5 @@
 import json, os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
 
 import argparse
 import torch
@@ -11,23 +11,13 @@ from datasets import load_dataset
 from peft import get_peft_model, LoraConfig
 from safetensors.torch import load_file
 
-generation_config = GenerationConfig(
-    temperature=0.2,
-    top_k=40,
-    top_p=0.9,
-    do_sample=True,
-    num_beams=1,
-    repetition_penalty=1.2,
-    max_new_tokens=400
-)
-
 training_args = TrainingArguments(
-    output_dir="./output",
+    output_dir="output",
     auto_find_batch_size=True,
-    per_device_train_batch_size=36,
-    per_device_eval_batch_size=36,
+    per_device_train_batch_size=144,
+    per_device_eval_batch_size=144,
     warmup_ratio=0.03,
-    learning_rate=1e-5,
+    learning_rate=5e-5,
     lr_scheduler_type="cosine",
     weight_decay=0.01,
     num_train_epochs=2,
@@ -35,12 +25,11 @@ training_args = TrainingArguments(
     gradient_accumulation_steps=4,
     log_level="info",
     logging_steps=0.1,
-    eval_strategy="epoch",
     save_strategy="epoch",
     eval_accumulation_steps=4,
     save_steps=0.1,
     save_total_limit=3,
-    save_safetensors=True,
+    save_safetensors=False,
     max_grad_norm=0.3,
     seed=42
 )
@@ -71,10 +60,6 @@ llama_peft_config = LoraConfig(
     lora_alpha=128,
     lora_dropout=0.05,
     bias="none",
-    modules_to_save=[
-        "embed_tokens",
-        "lm_head"
-    ],
     target_modules=[
         "q_proj",
         "k_proj",
