@@ -15,30 +15,6 @@ generation_config = GenerationConfig(
     max_new_tokens=400
 )
 
-training_args = TrainingArguments(
-    output_dir="./output",
-    auto_find_batch_size=True,
-    per_device_train_batch_size=36,
-    per_device_eval_batch_size=36,
-    warmup_ratio=0.03,
-    learning_rate=1e-5,
-    lr_scheduler_type="cosine",
-    weight_decay=0.01,
-    num_train_epochs=2,
-    bf16=True,
-    gradient_accumulation_steps=4,
-    log_level="info",
-    logging_steps=0.1,
-    eval_strategy="epoch",
-    save_strategy="epoch",
-    eval_accumulation_steps=4,
-    save_steps=0.1,
-    save_total_limit=3,
-    save_safetensors=True,
-    max_grad_norm=0.3,
-    seed=42
-)
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', default="NanoAbLLaMAmodel", type=str, help="The local path of the model.")
 parser.add_argument('--interactive', default=True, action='store_true', help="If True, you can input instructions interactively. If False, the input instructions should be in the input_file.")
@@ -70,7 +46,6 @@ if __name__ == '__main__':
     else:
         raise ValueError("No GPU available.")
 
-    #输入
     if args.interactive:
         model.eval()
         with torch.no_grad():
@@ -89,7 +64,6 @@ if __name__ == '__main__':
                             output_attentions = False
                         )
                 s = generation_output[0]
-                #模型输出
                 output = tokenizer.decode(s,skip_special_tokens=True)
                 print(output)
     else:
