@@ -72,7 +72,7 @@ if __name__ == '__main__':
             examples =f.read().splitlines()
         print("Start generating...")
         for index, example in tqdm(enumerate(examples),total=len(examples)):
-            input_text = tokenizer(example,return_tensors="pt")  #add_special_tokens=False ?
+            input_text = tokenizer(example,return_tensors="pt")
 
             generation_output = model.generate(
                 input_ids = input_text["input_ids"].to(device),

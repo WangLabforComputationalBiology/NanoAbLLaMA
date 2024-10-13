@@ -76,20 +76,20 @@ def process_function(datasets):
     return tokenizer_data
 
 def preprocess_data(path):
-    # 将数据处理成Dataset
+    # Process data into a dataset
     dataset = load_dataset("csv", data_files=path, split="train")
     datasets = dataset.train_test_split(test_size=0.2)
     return datasets
 
 def train(device):
-    #使用peft进行处理
+    # Use peft for processing
     peft_model = get_peft_model(model, llama_peft_config)
     peft_model.print_trainable_parameters()
 
-    # 数据处理部分
+    # Data processing
     datasets = preprocess_data(args.input_file)
 
-    # trainer
+    # Trainer
     trainer = SFTTrainer(
         model = peft_model,
         args = training_args,
@@ -102,10 +102,10 @@ def train(device):
         max_seq_length=256
     )
 
-    #模型训练
+    # Model training
     trainer.train()
 
-    #保存模型
+    # Save Model
     trainer.model.save_pretrained(args.output_file)
 
 if __name__ == '__main__':
@@ -118,5 +118,5 @@ if __name__ == '__main__':
     else:
         raise ValueError("No GPU available.")
 
-    #调用训练函数
+    # Call the training function
     train(device)
