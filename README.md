@@ -8,8 +8,6 @@
 # Model Description
 The NanoAbLLaMA is based on the Llama-2-7b.
 # Quick Inference
-  ## Training
-      example code:train.py.
   ## Generate
   ### 1.Install Requirements
   * torch==2.0.1
@@ -87,5 +85,7 @@ The NanoAbLLaMA is based on the Llama-2-7b.
     #You can also specify the first few amino acids of the protein sequence:
     [Generate by germline] Germline=<IGHV3-3*01> Seq=<QVQL
     ```
+    ## Training
+      example code:train.py.
 # Contact
 For any questions or inquiries, please contact Haotian Chen (2394658640@qq.com) and wangxin@sztu.edu.cn
