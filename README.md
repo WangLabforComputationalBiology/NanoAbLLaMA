@@ -15,6 +15,11 @@ The NanoAbLLaMA is based on the Llama-2-7b.
   * torch==2.0.1
   * transformers==4.31.0
   * cuda==11.7
+  ```bash
+  git clone https://github.com/WangLabforComputationalBiology/NanoAbLLaMA.git
+  cd NanoAbLLaMA
+  pip install -r requirements.txt
+  ```
   ### 2.Download Model
   Download from [Hugging Face](https://huggingface.co/Lab608/NanoAbLLaMA)
   ### 3.Usage
