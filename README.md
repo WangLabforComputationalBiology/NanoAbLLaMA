@@ -6,7 +6,8 @@
 </h5>
 
 # Model Description
-The NanoAbLLaMA is based on the Llama-2-7b.
+The NanoAbLLaMA is based on the Llama-2-7b and has been trained on 120K nanobody sequences for full-length nanobody sequence generation.
+NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3*01 or IGHV3S53*01).
 # Quick Inference
   ## Generate
   ### 1.Install Requirements
