@@ -1,15 +1,20 @@
-import json, os
+import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
 
 import argparse
 import torch
 from transformers import LlamaForCausalLM, LlamaTokenizer
-from transformers import GenerationConfig
 from transformers import TrainingArguments, DataCollatorForLanguageModeling
 from trl import SFTTrainer
 from datasets import load_dataset
 from peft import get_peft_model, LoraConfig
 from safetensors.torch import load_file
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--model', default="NanoAbLLaMAmodel", type=str, help="The local path of the model.")
+parser.add_argument('--input_file', default=None, help="The local path of the training dataset.")
+parser.add_argument('--output_file', default=None, help="model will be saved in this file.")
+args = parser.parse_args()
 
 training_args = TrainingArguments(
     output_dir="output",
@@ -34,16 +39,9 @@ training_args = TrainingArguments(
     seed=42
 )
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--model', default="NanoAbLLaMAmodel", type=str, help="The local path of the model.")
-parser.add_argument('--input_file', default=None, help="Training dataset, Using a .csv file with only one column of data named 'text'")
-parser.add_argument('--output_file', default=None, help="model will be saved in this file.")
-args = parser.parse_args()
-
-load_type = torch.bfloat16
 model = LlamaForCausalLM.from_pretrained(
         args.model,
-        torch_dtype=load_type,
+        torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=True,
         quantization_config=None,
         device_map="auto"
@@ -71,13 +69,14 @@ llama_peft_config = LoraConfig(
     ]
 )
 
-def process_function(datasets):
-    tokenizer_data = tokenizer(datasets['data'], padding=True)
-    return tokenizer_data
+def input_processing(text):
+    text['text'] = text['instruction']+' '+text['input']+' '+text['output']+'</s>'
+    return text
 
 def preprocess_data(path):
     # Process data into a dataset
-    dataset = load_dataset("csv", data_files=path, split="train")
+    dataset = load_dataset("json", data_files=path, split="train")
+    dataset = dataset.map(input_processing, remove_columns=['instruction', 'input', 'output'])
     datasets = dataset.train_test_split(test_size=0.2)
     return datasets
 
