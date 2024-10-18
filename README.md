@@ -23,6 +23,7 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   Download from [Hugging Face](https://huggingface.co/Lab608/NanoAbLLaMA)
   ### 3.Usage
   You can quickly start using it by simply changing the file address to the address of the model you have downloaded, and then follow the input format for input.
+  If you want to perform more complex inputs, such as input files, please find the main.py file in the code folder to use.
   * Python
     ```python
     import torch
