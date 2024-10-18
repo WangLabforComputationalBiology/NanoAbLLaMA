@@ -129,6 +129,7 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
     [Generate by germline] Germline=<IGHV3-3*01> Seq=<QVQL
     ```
     ## Training
-      example code:train.py.
+    1. Process the train_dataset into a format similar to our example.json format and put the train_datasets under ./data/instruction_tuning_dataset. We provided ./data/example.json as an example.
+    2. Run ./scripts/train.py and specify the paths for input_file and output_file.
 # Contact
 For any questions or inquiries, please contact Haotian Chen (2394658640@qq.com) and wangxin@sztu.edu.cn
