@@ -24,61 +24,32 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   ### 3.Usage
   * Python
     ```python
-    import argparse
     import torch
-    from transformers import LlamaForCausalLM, LlamaTokenizer
-    from transformers import GenerationConfig
-    
-    generation_config = GenerationConfig(
-        temperature=0.2,
-        top_k=40,
-        top_p=0.9,
-        do_sample=True,
-        num_beams=1,
-        repetition_penalty=1.2,
-        max_new_tokens=400
-    )
-    
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--model', default="NanoAbLLaMAmodel", type=str, help="The local path of the model.")
-    args = parser.parse_args()
-    
-    load_type = torch.bfloat16
-    model = LlamaForCausalLM.from_pretrained(
-            args.model,
-            torch_dtype=load_type,
-            low_cpu_mem_usage=True,
-            quantization_config=None,
-            device_map="auto"
-        )
-    
-    tokenizer = LlamaTokenizer.from_pretrained(args.model)
-    
+    from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig
+
+    # You can replace the file_path with your model path
+    tokenizer = AutoTokenizer.from_pretrained("NanoAbLLaMAmodel", use_fast=False, trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained("NanoAbLLaMAmodel", device_map="auto", torch_dtype=torch.bfloat16, trust_remote_code=True)
+    generation_config = GenerationConfig(temperature=0.2, top_k=40, top_p=0.9, do_sample=True, num_beams=1, repetition_penalty=1.2, max_new_tokens=400)
+
     if __name__ == '__main__':
         if torch.cuda.is_available():
             device = torch.device(0)
         else:
             raise ValueError("No GPU available.")
-    
         model.eval()
+        print("####Enter 'exit' to exit.")
         with torch.no_grad():
             while True:
-                raw_input_text = input("Input:")
-                if len(raw_input_text.strip())==0:
+                input_text = str(input("Input:"))
+                if input_text.strip()=="exit":
                     break
-                input_text = raw_input_text
-                input_text = tokenizer(input_text,return_tensors="pt").to(device)
-                generation_output = model.generate(
-                            input_ids = input_text["input_ids"].to(device),
-                            attention_mask = input_text['attention_mask'].to(device),
-                            eos_token_id=tokenizer.eos_token_id,
-                            pad_token_id=tokenizer.pad_token_id,
-                            generation_config = generation_config,
-                            output_attentions = False
-                        )
-                s = generation_output[0]
-                output = tokenizer.decode(s,skip_special_tokens=True)
-                print(output)
+                elif len(input_text.strip())==0:
+                    break
+                input_text = tokenizer(input_text, return_tensors="pt").to(device)
+                generation_output = model.generate(input_text.input_ids, generation_config).to(device)
+                output = tokenizer.batch_decode(generation_output, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+                print("Output:", output)
     ```
     ### 4.Input Format
     The instructions which you input to the model should follow the following format:
