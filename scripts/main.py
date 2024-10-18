@@ -3,29 +3,31 @@ import torch
 from transformers import LlamaForCausalLM, LlamaTokenizer
 from transformers import GenerationConfig
 from tqdm import tqdm
-from transformers import TrainingArguments
-
-generation_config = GenerationConfig(
-    temperature=0.2,
-    top_k=40,
-    top_p=0.9,
-    do_sample=True,
-    num_beams=1,
-    repetition_penalty=1.2,
-    max_new_tokens=400
-)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', default="NanoAbLLaMAmodel", type=str, help="The local path of the model.")
+parser.add_argument('--temperature', default=0.2, type=float, help="The value used to regulate the probability of the next token; a higher temperature leads to more diverse text, but it may also result in untrustworthy content.")
+parser.add_argument('--top_k', default=40, type=int, help="The number of top-probability word tokens to retain for top-k filtering.")
+parser.add_argument('--top_p', default=0.9, type=float, help="If set to a floating-point number less than 1, only the most probable tokens whose cumulative probability reaches top_p or higher are retained for generation.")
+parser.add_argument('--do_sample', default=True, action='store_true', help="Whether to use sampling; otherwise, use greedy decoding.")
+parser.add_argument('--repetition_penalty', default=1.2, type=float, help="The parameter for repetition penalty, 1.0 indicates no penalty.")
 parser.add_argument('--interactive', default=True, action='store_true', help="If True, you can input instructions interactively. If False, the input instructions should be in the input_file.")
 parser.add_argument('--input_file', default=None, help="You can put all your input instructions in this file (one instruction per line).")
 parser.add_argument('--output_file', default=None, help="All the outputs will be saved in this file.")
 args = parser.parse_args()
 
-load_type = torch.bfloat16
+generation_config = GenerationConfig(
+    temperature=args.temperature,
+    top_k=args.top_k,
+    top_p=args.top_p,
+    do_sample=args.do_sample,
+    repetition_penalty=args.repetition_penalty,
+    max_new_tokens=400
+)
+
 model = LlamaForCausalLM.from_pretrained(
         args.model,
-        torch_dtype=load_type,
+        torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=True,
         quantization_config=None,
         device_map="auto"
