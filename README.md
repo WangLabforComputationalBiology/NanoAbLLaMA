@@ -24,7 +24,7 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   ### 3.Generate
   1. Replace the model path with your local path.
   2. Run `./scripts/main.py` and follow the input format for input.
-  * Run the example as follows:
+  * Example:
   ### 4.Input Format
   The instructions which you input to the model should follow the following format:
   ```text
