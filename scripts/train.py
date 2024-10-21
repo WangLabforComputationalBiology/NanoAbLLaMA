@@ -11,7 +11,7 @@ from peft import get_peft_model, LoraConfig
 from safetensors.torch import load_file
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', default="NanoAbLLaMAmodel", type=str, help="The local path of the model.")
+parser.add_argument('--model', default="model", type=str, help="The local path of the model.")
 parser.add_argument('--input_file', default=None, help="The local path of the training dataset.")
 parser.add_argument('--output_file', default=None, help="model will be saved in this file.")
 args = parser.parse_args()
