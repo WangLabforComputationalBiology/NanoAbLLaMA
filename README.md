@@ -14,6 +14,9 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   * torch==2.0.1
   * transformers==4.31.0
   * cuda==11.7
+  * trl==0.8.6
+  * safetensors==0.4.3
+  * peft==0.11.1
   ```bash
   git clone https://github.com/WangLabforComputationalBiology/NanoAbLLaMA.git
   cd NanoAbLLaMA
