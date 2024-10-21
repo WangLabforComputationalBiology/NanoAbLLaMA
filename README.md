@@ -30,15 +30,15 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
 
   options:
   -h, --help show this help message and exit
-  --model The local path of the model.
-  --temperature The value used to regulate the probability of the next token; a higher temperature leads to more diverse text, but it may also result in untrustworthy content.
-  --top_k The number of top-probability word tokens to retain for top-k filtering.
-  --top_p If set to a floating-point number less than 1, only the most probable tokens whose cumulative probability reaches top_p or higher are retained for generation.
-  --do_sample Whether to use sampling; otherwise, use greedy decoding.
-  --repetition_penalty The parameter for repetition penalty, 1.0 indicates no penalty.
-  --interactive If True, you can input instructions interactively. If False, the input instructions should be in the input_file.
-  --input_file You can put all your input instructions in this file (one instruction per line).
-  --output_file All the outputs will be saved in this file.
+  --model The local path of the model. (default: NanoAbLLaMAmodel)
+  --temperature The value used to regulate the probability of the next token; a higher temperature leads to more diverse text, but it may also result in untrustworthy content. (default: 0.2)
+  --top_k The number of top-probability word tokens to retain for top-k filtering. (default: 40)
+  --top_p If set to a floating-point number less than 1, only the most probable tokens whose cumulative probability reaches top_p or higher are retained for generation. (default: 0.9)
+  --do_sample Whether to use sampling; otherwise, use greedy decoding. (default: True)
+  --repetition_penalty The parameter for repetition penalty, 1.0 indicates no penalty. (default: 1.2)
+  --interactive If True, you can input instructions interactively. If False, the input instructions should be in the input_file. (default: True)
+  --input_file You can put all your input instructions in this file (one instruction per line). (default: None)
+  --output_file All the outputs will be saved in this file. (default: None)
   ```
   ### 4.Input Format
   The instructions which you input to the model should follow the following format:
