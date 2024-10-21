@@ -40,6 +40,12 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   --input_file You can put all your input instructions in this file (one instruction per line). (default: None)
   --output_file All the outputs will be saved in this file. (default: None)
   ```
+  * Example:
+  ```text
+  python ./scripts/main.py --model NanoAbLLaMAmodel
+  or
+  python ./scripts/main.py --model NanoAbLLaMAmodel --temperature 0.4 --top_k 50 --top_p 0.8
+  ```
   ### 4.Input Format
   The instructions which you input to the model should follow the following format:
   ```text
@@ -54,5 +60,19 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   ## Training
   1. Process the train_dataset into a format similar to our example.json format and put the train_datasets under `./data/instruction_tuning_dataset`. We provided `./data/example.json` as an example.
   2. Run `./scripts/train.py` and specify the paths for input_file and output_file.
+  * Options:
+  ```text
+  usage: train.py [-h] [--model] [--input_file] [--output_file]
+
+  options:
+  -h, --help show this help message and exit
+  --model The local path of the model. (default: NanoAbLLaMAmodel)
+  --input_file The local path of the training dataset. (default: None)
+  --output_file model will be saved in this file. (default: None)
+  ```
+  * Example:
+  ```text
+  python ./scripts/train.py --model NanoAbLLaMAmodel --input_file ./data/instruction_tuning_dataset/partial_dataset.json --output_file ./output
+  ```
 # Contact
 For any questions or inquiries, please contact Haotian Chen (2394658640@qq.com) and wangxin@sztu.edu.cn
