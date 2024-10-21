@@ -25,7 +25,7 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   ### 2.Download Model
   Download from [Hugging Face](https://huggingface.co/Lab608/NanoAbLLaMA)
   ### 3.Generate
-  1. You must change the model path to your local path, with the default being `./NanoAbLLaMAmodel`.
+  1. You must change the model path to your local path, with the default being `./model`.
   2. Run `./scripts/main.py` and follow the input format for input.
   * Options:
   ```text
@@ -33,7 +33,7 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
 
   options:
   -h, --help show this help message and exit
-  --model The local path of the model. (default: NanoAbLLaMAmodel)
+  --model The local path of the model. (default: model)
   --temperature The value used to regulate the probability of the next token; a higher temperature leads to more diverse text, but it may also result in untrustworthy content. (default: 0.2)
   --top_k The number of top-probability word tokens to retain for top-k filtering. (default: 40)
   --top_p If set to a floating-point number less than 1, only the most probable tokens whose cumulative probability reaches top_p or higher are retained for generation. (default: 0.9)
@@ -45,9 +45,9 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   ```
   * Example:
   ```text
-  python ./scripts/main.py --model NanoAbLLaMAmodel
+  python ./scripts/main.py --model model
   or
-  python ./scripts/main.py --model NanoAbLLaMAmodel --temperature 0.4 --top_k 50 --top_p 0.8
+  python ./scripts/main.py --model model --temperature 0.4 --top_k 50 --top_p 0.8
   ```
   ### 4.Input Format
   The instructions which you input to the model should follow the following format:
@@ -69,13 +69,13 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
 
   options:
   -h, --help show this help message and exit
-  --model The local path of the model. (default: NanoAbLLaMAmodel)
+  --model The local path of the model. (default: model)
   --input_file The local path of the training dataset. (default: None)
   --output_file model will be saved in this file. (default: None)
   ```
   * Example:
   ```text
-  python ./scripts/train.py --model NanoAbLLaMAmodel --input_file ./data/instruction_tuning_dataset/partial_dataset.json --output_file ./output
+  python ./scripts/train.py --model model --input_file ./data/instruction_tuning_dataset/partial_dataset.json --output_file ./output
   ```
 # Contact
 For any questions or inquiries, please contact Haotian Chen (2394658640@qq.com) and wangxin@sztu.edu.cn
