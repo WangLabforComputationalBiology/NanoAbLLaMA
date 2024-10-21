@@ -22,9 +22,24 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   ### 2.Download Model
   Download from [Hugging Face](https://huggingface.co/Lab608/NanoAbLLaMA)
   ### 3.Generate
-  1. Replace the model path with your local path.
+  1. You must change the model path to your local path, with the default being `./NanoAbLLaMAmodel`.
   2. Run `./scripts/main.py` and follow the input format for input.
-  * Example:
+  * Options:
+  ```text
+  usage: main.py [-h] [--model] [--temperature] [--top_k] [--top_p] [--do_sample] [--repetition_penalty] [--interactive] [--input_file] [--output_file]
+
+  options:
+  -h, --help show this help message and exit
+  --model The local path of the model.
+  --temperature The value used to regulate the probability of the next token; a higher temperature leads to more diverse text, but it may also result in untrustworthy content.
+  --top_k The number of top-probability word tokens to retain for top-k filtering.
+  --top_p If set to a floating-point number less than 1, only the most probable tokens whose cumulative probability reaches top_p or higher are retained for generation.
+  --do_sample Whether to use sampling; otherwise, use greedy decoding.
+  --repetition_penalty The parameter for repetition penalty, 1.0 indicates no penalty.
+  --interactive If True, you can input instructions interactively. If False, the input instructions should be in the input_file.
+  --input_file You can put all your input instructions in this file (one instruction per line).
+  --output_file All the outputs will be saved in this file.
+  ```
   ### 4.Input Format
   The instructions which you input to the model should follow the following format:
   ```text
