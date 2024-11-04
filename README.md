@@ -14,6 +14,9 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   * torch==2.0.1
   * transformers==4.31.0
   * cuda==11.7
+  * trl==0.8.6
+  * safetensors==0.4.3
+  * peft==0.11.1
   ```bash
   git clone https://github.com/WangLabforComputationalBiology/NanoAbLLaMA.git
   cd NanoAbLLaMA
@@ -22,7 +25,7 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   ### 2.Download Model
   Download from [Hugging Face](https://huggingface.co/Lab608/NanoAbLLaMA)
   ### 3.Generate
-  1. You must change the model path to your local path, with the default being `./NanoAbLLaMAmodel`.
+  1. You must change the model path to your local path, with the default being `./model`.
   2. Run `./scripts/main.py` and follow the input format for input.
   * Options:
   ```text
@@ -30,15 +33,21 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
 
   options:
   -h, --help show this help message and exit
-  --model The local path of the model.
-  --temperature The value used to regulate the probability of the next token; a higher temperature leads to more diverse text, but it may also result in untrustworthy content.
-  --top_k The number of top-probability word tokens to retain for top-k filtering.
-  --top_p If set to a floating-point number less than 1, only the most probable tokens whose cumulative probability reaches top_p or higher are retained for generation.
-  --do_sample Whether to use sampling; otherwise, use greedy decoding.
-  --repetition_penalty The parameter for repetition penalty, 1.0 indicates no penalty.
-  --interactive If True, you can input instructions interactively. If False, the input instructions should be in the input_file.
-  --input_file You can put all your input instructions in this file (one instruction per line).
-  --output_file All the outputs will be saved in this file.
+  --model The local path of the model. (default: model)
+  --temperature The value used to regulate the probability of the next token; a higher temperature leads to more diverse text, but it may also result in untrustworthy content. (default: 0.2)
+  --top_k The number of top-probability word tokens to retain for top-k filtering. (default: 40)
+  --top_p If set to a floating-point number less than 1, only the most probable tokens whose cumulative probability reaches top_p or higher are retained for generation. (default: 0.9)
+  --do_sample If set to True, the model will perform random sampling based on the probability distribution of words; if set to False, the model will use a Greedy Search strategy. (default: True)
+  --repetition_penalty The parameter for repetition penalty, 1.0 indicates no penalty. (default: 1.2)
+  --interactive If True, you can input instructions interactively. If False, the input instructions should be in the input_file. (default: True)
+  --input_file You can put all your input instructions in this file (one instruction per line). (default: None)
+  --output_file All the outputs will be saved in this file. (default: None)
+  ```
+  * Example:
+  ```text
+  python ./scripts/main.py --model model
+  or
+  python ./scripts/main.py --model model --temperature 0.4 --top_k 50 --top_p 0.8
   ```
   ### 4.Input Format
   The instructions which you input to the model should follow the following format:
@@ -54,5 +63,19 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   ## Training
   1. Process the train_dataset into a format similar to our example.json format and put the train_datasets under `./data/instruction_tuning_dataset`. We provided `./data/example.json` as an example.
   2. Run `./scripts/train.py` and specify the paths for input_file and output_file.
+  * Options:
+  ```text
+  usage: train.py [-h] [--model] [--input_file] [--output_file]
+
+  options:
+  -h, --help show this help message and exit
+  --model The local path of the model. (default: model)
+  --input_file The local path of the training dataset. (default: None)
+  --output_file model will be saved in this file. (default: None)
+  ```
+  * Example:
+  ```text
+  python ./scripts/train.py --model model --input_file ./data/instruction_tuning_dataset/partial_dataset.json --output_file ./output
+  ```
 # Contact
 For any questions or inquiries, please contact Haotian Chen (2394658640@qq.com) and wangxin@sztu.edu.cn

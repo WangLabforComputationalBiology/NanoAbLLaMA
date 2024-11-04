@@ -5,7 +5,7 @@ from transformers import GenerationConfig
 from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', default="NanoAbLLaMAmodel", type=str, help="The local path of the model.")
+parser.add_argument('--model', default="model", type=str, help="The local path of the model.")
 parser.add_argument('--temperature', default=0.2, type=float, help="The value used to regulate the probability of the next token; a higher temperature leads to more diverse text, but it may also result in untrustworthy content.")
 parser.add_argument('--top_k', default=40, type=int, help="The number of top-probability word tokens to retain for top-k filtering.")
 parser.add_argument('--top_p', default=0.9, type=float, help="If set to a floating-point number less than 1, only the most probable tokens whose cumulative probability reaches top_p or higher are retained for generation.")
