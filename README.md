@@ -12,7 +12,7 @@ NanoAbLLaMA can generate sequences conditioned on germline (IGHV3-3\*01 or IGHV3
   ## Usage
   ### 1.Install Requirements
   * torch==2.2.0
-  * transformers==4.36.0
+  * transformers==4.38.0
   * cuda==11.7
   * trl==0.8.6
   * safetensors==0.4.3
